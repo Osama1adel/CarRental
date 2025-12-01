@@ -11,13 +11,6 @@ body {
 
 /*  Hero Section */
 
-/* .hero-main {
-    height: 90vh; 
-    position: relative;
-    background: url('UINT-3/CarRental/CarRental/media/images/hero_car.jpg') no-repeat center center/cover;
-} */
-
-
 .hero-main::before {
     content: "";
     position: absolute;

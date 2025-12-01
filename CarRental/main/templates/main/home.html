@@ -1,13 +1,16 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Home - Car Rental{% endblock %}
 
 {% block extra_head %}
 <style>
 .hero-main {
     height: 90vh;
-    background: url("/media/images/hero_car.jpg") no-repeat center center/cover;
-}
+    background-image: url("{% static 'images/car.jpg' %}");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+} 
 </style>
 {% endblock %}
 
@@ -101,7 +104,7 @@
             <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
                 <div class="col">
                     <div class="card h-100 shadow-sm border-0">
-                        <img src="/media/images/car_sample_1.jpg" class="card-img-top" alt="Vehicle Name">
+                        <img src="{% static 'images/car_sample_1.jpg' %}" class="card-img-top" alt="Vehicle Name">
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Supra Turbo Z</h5>
                             <p class="text-muted small mb-1">$79 / Day</p>

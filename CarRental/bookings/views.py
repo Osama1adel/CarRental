@@ -10,5 +10,3 @@ def create_booking(request):
 
 def reviewer_dashboard(request):
     return render(request, 'reviewer_dashboard.html')
-
-

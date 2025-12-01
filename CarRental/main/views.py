@@ -4,4 +4,5 @@ from django.shortcuts import render
 
 
 def home(requset):
-    pass
+
+    return render(requset,"main/home.html")

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Home - Car Rental{% endblock %}
+
+{% block content %}
+    {% comment %} background: url('{% static 'images/hero_car.jpg' %}') no-repeat center center/cover; height: 50vh; min-height: 350px; {% endcomment %}
+    <section class="hero-section text-white d-flex align-items-center" style="background: url('{% static 'images/hero_car.jpg' %}') no-repeat center center/cover; height: 50vh; min-height: 350px;">
+        <div class="container text-center bg-dark bg-opacity-50 p-4 rounded-3">
+            <h1 class="display-1 fw-bolder mb-0">Car Rental</h1>
+            <p class="lead fw-light mt-2">Find your perfect ride with our premier services.</p>
+            </div>
+    </section>
+
+    <section id="services" class="services-section py-5 bg-white shadow-sm">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-primary fw-bold mb-1">Our Offering</p>
+                <h2 class="fw-bold">Our Premier services for your car rental needs</h2>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded-3 h-100 bg-light">
+                        <i class="fas fa-car fa-3x text-primary mb-3"></i>
+                        <h4 class="fw-bold">Well-maintained Car</h4>
+                        <p class="text-muted">We ensure all our vehicles are in top condition for your safety and comfort.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded-3 h-100 bg-light">
+                        <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                        <h4 class="fw-bold">Secure Payments</h4>
+                        <p class="text-muted">Safe and easy online payment options.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="p-4 border rounded-3 h-100 bg-light">
+                        <i class="fas fa-headset fa-3x text-primary mb-3"></i>
+                        <h4 class="fw-bold">24/7 Support</h4>
+                        <p class="text-muted">Our team is ready to assist you anytime, day or night.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="collection" class="cars-collection-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="text-primary fw-bold mb-1">Collection</p>
+                <h2 class="fw-bold">Explore Our Collection Cars</h2>
+            </div>
+            
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                        {% comment %} {% static 'images/car_sample_1.jpg' %} {% endcomment %}
+                        <img src="{% static 'images/car_sample_1.jpg' %}" class="card-img-top" alt="Car Name">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Hyundai Sonata</h5>
+                            <p class="text-muted small mb-1">Sedan, 4 Seats</p>
+                            <h6 class="text-primary fw-bold">$79 / Day</h6>
+                            <div class="text-warning small mb-3">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> (4.5)
+                            </div>
+                            <a href="#" class="btn btn-dark w-100">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                        {% comment %} {% static 'images/car_sample_2.jpg' %} {% endcomment %}
+                        <img src="{% static 'images/car_sample_2.jpg' %}" class="card-img-top" alt="Car Name">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Porsche 911</h5>
+                            <p class="text-muted small mb-1">Sport, 2 Seats</p>
+                            <h6 class="text-primary fw-bold">$299 / Day</h6>
+                            <div class="text-warning small mb-3">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (5.0)
+                            </div>
+                            <a href="#" class="btn btn-dark w-100">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-outline-dark btn-lg px-5 rounded-pill">View All Vehicles</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+
+            <h1 class="fw-bold mb-4 text-center">Login to Your Account</h1>
+
+            <div class="publisher-info-card shadow-lg p-5 rounded-4">
+                <form method="POST" action="{% url 'accounts:login' %}{% if 'next' in request.GET %}?next={{request.GET.next}}{% endif %}">
+                    {% csrf_token %}
+
+                    {% comment %} {% if messages %}
+                    <ul class="list-unstyled mt-1 mb-4">
+                        {% for message in messages %}
+                        <li class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-danger{% endif %}" role="alert">
+                            {{ message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endcomment %}
+
+                    <div class="mb-4">
+                        <label for="id_email" class="form-label fw-bold">Email</label>
+                        <input type="text" 
+                               name="email" 
+                               class="form-control" 
+                               required 
+                               id="id_email" 
+                               placeholder="Enter your email">
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="id_password" class="form-label fw-bold">Password</label>
+                        <input type="password" 
+                               name="password" 
+                               class="form-control" 
+                               required 
+                               id="id_password" 
+                               placeholder="Enter your password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary bg-dark-custom border-0 w-100 p-3 fw-bold">
+                        Login <i class="fa fa-sign-in-alt ms-1"></i>
+                    </button>
+                </form>
+
+                <p class="text-center text-muted mt-4 mb-0">
+                    Don't have an account? 
+                    <a href="{% url 'accounts:register' %}" class="fw-bold text-decoration-none">Sign up here</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .publisher-info-card {
+        background-color: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-control {
+        border-radius: 0.75rem; /* rounded-3 */
+        padding: 0.75rem 1rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #343a40; 
+        box-shadow: 0 0 0 0.25rem rgba(52, 58, 64, 0.25);
+    }
+
+</style>
+{% endblock %}

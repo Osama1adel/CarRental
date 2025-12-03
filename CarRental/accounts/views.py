@@ -1,7 +1,72 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from bookings.models import Booking
+from .forms import UserUpdateForm, ProfileUpdateForm 
+from django.db import transaction 
+
+
+@login_required
+def profile_view(request):
+    
+    # Ensure a profile exists for the user
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    # Initialize forms for profile update
+    user_form = UserUpdateForm(instance=request.user)
+    profile_form = ProfileUpdateForm(instance=profile)
+
+    bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
+
+    context = {
+        "bookings": bookings,
+        "user": request.user,
+        "user_form": user_form,       
+        "profile_form": profile_form,   
+        "profile_instance": profile,    
+    }
+    return render(request, "accounts/profile.html", context)
+
+
+@login_required
+@transaction.atomic 
+def update_profile(request):
+
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your account details have been updated successfully.', 'success')
+            return redirect('accounts:profile')
+        
+        else:
+            messages.error(request, 'There was an error in the submitted data. Please review the fields.', 'danger')
+
+    return redirect('accounts:profile') 
+
+
+
+@login_required
+@transaction.atomic
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request) # Log out the user before deleting to prevent session errors
+        user.delete() 
+        messages.success(request, 'Your account has been successfully deleted.', 'success')
+        return redirect('main:home')
+        
+    return redirect('accounts:profile')
+
+
 
 def login_view(request): 
     if request.method == "POST": 

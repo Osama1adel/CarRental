@@ -69,15 +69,72 @@ body {
 }
 
 /*  Navbar  */
-#main-navbar {
-    background-color: var(--bs-dark) !important; 
-    backdrop-filter: blur(12px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: none;
+/* Animation for Navbar */
+.navbar {
+    transition: all 0.4s ease-in-out;
+}
+.initial-nav {
+    background-color: transparent !important; 
+    backdrop-filter: blur(0px); 
+    -webkit-backdrop-filter: blur(0px); 
+    transition: background-color 0.4s ease-in-out, backdrop-filter 0.4s ease-in-out; 
+}
+/*  Dynamic Navbar Styles */
+.scrolled-nav {
+    background-color: rgba(18, 18, 18, 0.95) !important; 
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-
-.navbar-scrolled {
-    background-color: var(--bs-dark) !important;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+.scrolled-nav {
+    background-color: rgba(18, 18, 18, 0.85) !important; 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
+
+/*  Home Page Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.hero-main .carousel-caption {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp;
+    animation-delay: 0.5s; 
+}
+
+.carousel-item img {
+    height: 90vh; 
+    width:99vw !important;
+    object-fit: cover;
+}
+
+/* Force white text in profile page */
+
+
+/* Fix muted text */
+/* .profile-page .text-muted {
+    color: rgba(0, 0, 0, 0.75) !important;
+}
+.profile-page h4,
+.profile-page h5,
+.profile-page h2 {
+    color:black !important;
+}
+.fas p {
+    color: #121212;
+    font-style:'Tajawal', sans-serif;
+}
+.fas {
+    color: #121212;
+} */

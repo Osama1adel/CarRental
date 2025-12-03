@@ -4,6 +4,9 @@
 
 {% block extra_head %}
 <style>
+main .container.pt-5 {
+    padding-top: 0 !important;
+}
 .featured-cars-section .card {
     transition: transform 0.2s;
 }
@@ -14,11 +17,6 @@
     height: 200px; 
     overflow: hidden; 
     background-color: #f8f9fa;
-}
-.card-car-img {
-    object-fit: cover; 
-    height: 100%; 
-    width: 100%;
 }
 .carousel-caption h5 {
     font-size: 3rem;
@@ -34,8 +32,10 @@
 
 {% block content %}
 
-    <section class="hero-main d-flex align-items-center justify-content-center text-white">
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+    {% comment %} Hero page {% endcomment %}
+    <section class="hero-main d-flex align-items-center justify-content-center text-white mt-0">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            {% comment %} Begging of carousel {% endcomment %}
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="{% static "images/hero11.png" %}" class="d-block w-100" alt="...">
@@ -59,9 +59,13 @@
                     </div>
                 </div>
             </div>
+            {% comment %} End of carousel {% endcomment %}
         </div>
     </section>
+    {% comment %} End of hero page {% endcomment %}
 
+
+    {% comment %} Bigging of Contant {% endcomment %}
     <section id="services" class="services-premium py-5 text-white">
         <div class="container">
             <h2 class="text-center fw-bold mb-5">Our Premier Services</h2>
@@ -96,6 +100,7 @@
             </div>
         </div>
     </section>
+
 
     <section id="premium-vehicles" class="py-5 featured-cars-section">
         <div class="container">
@@ -174,5 +179,6 @@
             </div>
         </div>
     </section>
+    {% comment %} End of contant {% endcomment %}
 
 {% endblock content %}

@@ -34,7 +34,9 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+
     <header>
+        <!-- اعتمدنا id="mainNavbar" وكلاسات الفريق لدعم الشفافية -->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top initial-nav {% if request.path == '/'%}navbar-home{% endif %}" id="mainNavbar">
             <div class="container">
                 <a class="navbar-brand text-white" href="{% url 'main:home' %}">
@@ -44,22 +46,35 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'main:home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'vehicles:car_list' %}">Cars</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'main:about_us' %}">About Us</a></li>
                         
-                        {% if user.is_authenticated and user.is_staff %}
-                        <li class="nav-item">
-                            {% comment %} {% url 'cars:add_car' %} {% endcomment %}
-                            <li class="nav-item"><a class="nav-link" href="#">Add Car</a></li>
-                        </li>
-                        <li class="nav-item">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'bookings:reviewer_dashboard' %}">Dashboard</a></li>
-                        </li>
+                        {# ✅ اعتمدنا القائمة المنسدلة الخاصة بك (الأفضل) #}
+                        {% if user.is_authenticated and user.is_superuser %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Panel
+                                </a>
+                                <ul class="dropdown-menu text-start" aria-labelledby="adminDropdown">
+                                    <li><h6 class="dropdown-header text-uppercase small text-muted">Operations</h6></li>
+                                    <li><a class="dropdown-item" href="{% url 'bookings:reviewer_dashboard' %}">
+                                        <i class="fa-solid fa-clipboard-check me-2"></i> Reviewer Dashboard
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <li><h6 class="dropdown-header text-uppercase small text-muted">Inventory</h6></li>
+                                    <li><a class="dropdown-item" href="{% url 'vehicles:manage_cars' %}">
+                                        <i class="fa-solid fa-list-check me-2"></i> Manage Cars
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="{% url 'vehicles:add_car' %}">
+                                        <i class="fa-solid fa-plus me-2"></i> Add New Car
+                                    </a></li>
+                                </ul>
+                            </li>
                         {% endif %}
                     </ul>
 
@@ -88,9 +103,8 @@
             </div>
         </nav>
     </header>
-
     <!-- اعتمدنا مسافة 70px لضمان عدم اختفاء المحتوى -->
-    <main style="padding-top: 70px;"> 
+    <main style=""> 
         <div class="container">
             {% if messages %}
                 {% for message in messages %}
@@ -158,8 +172,8 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- اعتمدنا السكربت من الريبو (لأنه يحتوي على لوجيك الناف بار) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -191,6 +205,3 @@
 </html>
 
 <!-- End of base.html -->
- <!-- IGNORE -->
-  <!-- Test -->
-    <!-- IGNORE -->

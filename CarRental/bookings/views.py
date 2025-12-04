@@ -7,9 +7,9 @@ from .forms import BookingForm
 from vehicles.models import Car 
 
 # 1. صفحة إنشاء الحجز
-@login_required
+@login_required(login_url='accounts:login') # يجبر المستخدم على الدخول
 def create_booking(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
+    car = get_object_or_404(Car, pk=car_id) # استخدمنا pk لأنه أضمن
     
     if request.method == 'POST':
         form = BookingForm(request.POST)
@@ -17,7 +17,9 @@ def create_booking(request, car_id):
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
-            booking.save() # سيتم حساب السعر تلقائياً هنا بناءً على المودل
+            # السعر سيتم حسابه تلقائياً داخل الموديل عند الحفظ
+            booking.save() 
+            messages.success(request, "تم حجز السيارة بنجاح! بانتظار الموافقة.")
             return redirect('bookings:booking_success')
     else:
         form = BookingForm()
@@ -35,7 +37,7 @@ def booking_success(request):
 
 # 3. لوحة تحكم المراجع (للموظفين فقط)
 @login_required
-@user_passes_test(lambda u: u.is_staff) # فقط المشرفين يدخلون هنا
+@user_passes_test(lambda u: u.is_staff or u.is_superuser) # يسمح للمشرفين والأدمن
 def reviewer_dashboard(request):
     # عرض الحجوزات، الأحدث أولاً
     bookings = Booking.objects.all().order_by('-created_at')
@@ -48,10 +50,10 @@ def reviewer_dashboard(request):
         
         if action == 'approve':
             booking.status = 'CONFIRMED'
-            messages.success(request, f'Booking #{booking.id} Approved')
+            messages.success(request, f'Booking #{booking.id} Approved ✅')
         elif action == 'reject':
             booking.status = 'CANCELLED'
-            messages.warning(request, f'Booking #{booking.id} Rejected')
+            messages.warning(request, f'Booking #{booking.id} Rejected ❌')
         
         booking.save()
         return redirect('bookings:reviewer_dashboard')

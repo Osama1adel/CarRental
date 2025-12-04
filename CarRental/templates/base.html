@@ -48,6 +48,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'accounts:profile' %}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'main:home' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'vehicles:car_list' %}">Cars</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'main:about_us' %}">About Us</a></li>
@@ -85,8 +86,6 @@
                                     <i class="fa-regular fa-user"></i> {{ user.username }}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{% url 'bookings:reviewer_dashboard' %}">My Bookings</a></li>
-                                    <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form action="{% url 'accounts:logout' %}" method="post">
                                             {% csrf_token %}
@@ -103,9 +102,9 @@
             </div>
         </nav>
     </header>
-    <!-- اعتمدنا مسافة 70px لضمان عدم اختفاء المحتوى -->
+
     <main style=""> 
-        <div class="container">
+        {% comment %} <div class="container">
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
@@ -114,8 +113,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-        </div>
-        
+        </div> {% endcomment %}
         {% block content %}
         {% endblock content %}
     </main>

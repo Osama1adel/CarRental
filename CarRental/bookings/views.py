@@ -1,20 +1,19 @@
+# bookings/views.py (المحتوى الكامل والمعدل)
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Sum, Q
+from django.urls import reverse # 💡 هذا الاستيراد مهم لاستخدام reverse()
 from .models import Booking
 from .forms import BookingForm
 from vehicles.models import Car 
 
-# ---------------------------------------------------------
-# القسم الأول: للعملاء (Customer)
-# ---------------------------------------------------------
 
-# 1. صفحة إنشاء الحجز
 @login_required(login_url='accounts:login')
 def create_booking(request, car_id):
     car = get_object_or_404(Car, pk=car_id)
-    
+
     if request.method == 'POST':
         # ✅ نرسل car.id للفورم لكي يتمكن من فحص التواريخ والتحقق من التوفر
         form = BookingForm(request.POST, car_id=car.id)
@@ -22,28 +21,28 @@ def create_booking(request, car_id):
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
+
             booking.save() # السعر يحسب تلقائياً في الموديل
             messages.success(request, "تم حجز السيارة بنجاح! بانتظار الموافقة.")
             return redirect('bookings:booking_success')
+
+            # ⬇ يروح إلى صفحة الدفع
+            return redirect(reverse('payments:initiate_payment', args=[booking.id]))
+
     else:
         # ✅ نرسل car.id عند فتح الصفحة لأول مرة أيضاً
         form = BookingForm(car_id=car.id)
 
-    context = {
+    return render(request, 'bookings/create_booking.html', {
         'form': form,
         'car': car
-    }
-    return render(request, 'bookings/create_booking.html', context)
+    })
 
-# 2. صفحة نجاح الحجز
+# 2. صفحة نجاح الحجز (ستبقى للاستخدام إذا قررت عدم إلغائها)
 @login_required
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
-
-# ---------------------------------------------------------
-# القسم الثاني: للموظفين والأدمن (Reviewer Dashboard)
-# ---------------------------------------------------------
 
 @login_required
 @user_passes_test(lambda u: u.is_staff or u.is_superuser)
@@ -82,7 +81,7 @@ def reviewer_dashboard(request):
         
         return redirect('bookings:reviewer_dashboard')
 
-    # حساب مجموع الأرباح (للحجوزات المؤكدة فقط)
+
     total_revenue = bookings.filter(status='CONFIRMED').aggregate(Sum('total_price'))['total_price__sum'] or 0
 
     stats = {

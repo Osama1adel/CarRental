@@ -88,6 +88,8 @@
                         <th>Car</th>
                         <th>Dates</th>
                         <th>Price</th>
+                        <th>National ID</th>
+                        <th>Driving License</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -117,6 +119,31 @@
                             </div>
                         </td>
                         <td class="fw-bold text-success">${{ booking.total_price }}</td>
+                        
+                        <td>
+                            {% with profile=booking.user.profile %}
+                                {% if profile.national_id_image %}
+                                    <a href="{{ profile.national_id_image.url }}" target="_blank" class="btn btn-sm btn-info text-white">
+                                        <i class="fa-solid fa-id-card"></i> View
+                                    </a>
+                                {% else %}
+                                    <span class="text-danger small fw-bold">Missing ID</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+
+                        <td>
+                            {% with profile=booking.user.profile %}
+                                {% if profile.driving_license_image %}
+                                    <a href="{{ profile.driving_license_image.url }}" target="_blank" class="btn btn-sm btn-info text-white">
+                                        <i class="fa-solid fa-id-card-clip"></i> View
+                                    </a>
+                                {% else %}
+                                    <span class="text-danger small fw-bold">Missing License</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+
                         <td>
                             {% if booking.status == 'PENDING' %}
                                 <span class="badge bg-warning text-dark rounded-pill px-3">Pending</span>
@@ -149,7 +176,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="7" class="text-center py-5 text-muted">
+                        <td colspan="9" class="text-center py-5 text-muted">
                             <i class="fa-regular fa-folder-open fa-3x mb-3"></i>
                             <p>No bookings found yet.</p>
                         </td>

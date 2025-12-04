@@ -3,119 +3,102 @@
 
 {% block title %}Account Management | {{ user.first_name|default:user.username }}{% endblock %}
 
-{% block extra_head %}
 <style>
-    /* -------------------------------------------------------------------------- */
-    /* NEW DESIGN: LIGHT BLUE ACCENT & PROFESSIONAL GREY LOOK                   */
-    /* -------------------------------------------------------------------------- */
-    
-    /* 1. Global Color Override (Light Blue / Sky Blue) */
+    /* ------------------ COLOR SYSTEM ------------------ */
+
     :root {
-        --bs-primary: #00BFFF; /* Light Blue / Deep Sky Blue */
-        --bs-primary-rgb: 0, 191, 255;
-        --bs-light: #f5f7f9; /* Very light grey/blue background for body */
-        --bs-dark-grey: #6c757d;
-        --bs-secondary: #6c757d; /* Dark Grey for secondary text/items */
+        --primary: #00a877;        /* Emerald Green */
+        --primary-dark: #00875e;
+        --bg-light: #f5f7fa;       /* Soft background */
+        --text-dark: #1f2937;      /* Dark Slate */
+        --text-muted: #6b7280;     /* Muted Gray */
+        --card-border: #e5e7eb;    /* Light border */
+        --blue-accent: #2563eb;    /* Modern Blue */
+        --danger: #dc3545;
+        --warning: #facc15;
     }
 
-    /* Apply new primary color to existing classes */
-    .text-primary { color: var(--bs-primary) !important; }
-    /* Apply secondary color to the title/price */
-    .text-secondary { color: var(--bs-secondary) !important; } 
-
-    .btn-primary { 
-        --bs-btn-bg: var(--bs-primary);
-        --bs-btn-border-color: var(--bs-primary);
-        --bs-btn-hover-bg: #0099cc; /* Slightly darker hover */
-        --bs-btn-hover-border-color: #0099cc;
-    }
-    /* The 'Save Changes' button in settings should now use the new primary blue */
-    .btn-success {
-        --bs-btn-bg: var(--bs-primary);
-        --bs-btn-border-color: var(--bs-primary);
-        --bs-btn-hover-bg: #0099cc;
-        --bs-btn-hover-border-color: #0099cc;
-    }
-    /* Pending badge uses the main blue accent color */
-    .badge.bg-primary { 
-        background-color: var(--bs-primary) !important; 
-        color: #fff !important; /* Ensure white text */
-    }
-    
-    /* 2. General Page & Card Styling */
+    /* Global */
     body {
-        background-color: var(--bs-light);
-    }
-    /* Main title icon */
-    .profile-page h2 i {
-        color: var(--bs-primary) !important;
-    }
-    .profile-page .card {
-        border: 1px solid #e9ecef; /* Subtle border */
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05) !important;
+        background-color: var(--bg-light) !important;
+        color: var(--text-dark) !important;
     }
 
-    /* 3. Tabs Styling */
-    .profile-page .card-header {
-        border-bottom: none;
-        background-color: transparent !important;
+    h2, h4, h5, h6 {
+        color: var(--text-dark) !important;
     }
-    .profile-page .nav-tabs {
-        background-color: #ffffff !important; 
-        border-bottom: 1px solid #dee2e6;
+
+    p, small, label {
+        color: var(--text-muted) !important;
     }
-    .profile-page .nav-link {
-        color: var(--bs-dark-grey); /* Darker grey for non-active */
-        border: none;
-        border-radius: 0;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        transition: all 0.3s;
+
+    /* Primary items */
+    .text-primary {
+        color: var(--primary) !important;
     }
-    .profile-page .nav-link.active {
-        color: var(--bs-primary) !important;
-        background-color: #fff !important;
-        border-bottom: 3px solid var(--bs-primary) !important; /* Strong Light Blue indicator */
-        font-weight: 700 !important;
+    .badge.bg-primary {
+        background-color: var(--primary) !important;
     }
-    .profile-page .nav-link:hover:not(.active) {
-        color: #333;
-        background-color: #f8f9fa; /* Light grey hover */
+    .btn-primary {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
     }
-    
-    /* 4. Booking Card Status Bars (Left Border Emphasis) */
-    .profile-page .card.mb-3 {
-        border-top: none;
-        border-right: none;
-        border-bottom: none;
-        border-radius: 0.5rem;
-        border-left: 5px solid #dee2e6; /* Default light border */
-        transition: all 0.3s;
+    .btn-primary:hover {
+        background-color: var(--primary-dark) !important;
     }
-    
-    /* Status-specific left border color: KEEPING BOOTSTRAP DEFAULTS FOR STATUSES */
-    /* PENDING (New Accent Blue) */
-    .card.border-primary { 
-        border-left-color: var(--bs-primary) !important; 
-    } 
-    /* CONFIRMED (Standard Green) */
-    .card.border-success { 
-        border-left-color: #198754 !important; 
+
+    /* Success button override */
+    .btn-success {
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
     }
-    /* ACTIVE (Standard Blue - Darker than primary) */
-    .card.border-info { 
-        border-left-color: #0d6efd !important; 
+    .btn-success:hover {
+        background-color: var(--primary-dark) !important;
+        border-color: var(--primary-dark) !important;
     }
-    /* COMPLETED/OTHER (Standard Grey) */
-    .card.border-secondary { 
-        border-left-color: #6c757d !important; 
+
+    /* Tabs */
+    .nav-tabs {
+        background: white !important;
+        border-bottom: 1px solid var(--card-border);
     }
-    /* CANCELLED (Standard Red) */
-    .card.border-danger { 
-        border-left-color: #dc3545 !important; 
+    .nav-link {
+        color: var(--text-muted) !important;
+        font-weight: 600;
     }
+    .nav-link.active {
+        color: var(--primary) !important;
+        border-bottom: 3px solid var(--primary) !important;
+        background-color: white !important;
+    }
+
+    /* Cards */
+    .card {
+        background: #ffffff !important;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        border-radius: 12px;
+    }
+
+    /* Booking card left-border colors */
+    .border-primary { border-left: 6px solid var(--primary) !important; }
+    .border-success { border-left: 6px solid #16a34a !important; }
+    .border-info    { border-left: 6px solid var(--blue-accent) !important; }
+    .border-danger  { border-left: 6px solid var(--danger) !important; }
+    .border-secondary { border-left: 6px solid #9ca3af !important; }
+
+    /* Badges (status indicators) */
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .badge.bg-success   { background-color: #16a34a !important; }
+    .badge.bg-info      { background-color: var(--blue-accent) !important; }
+    .badge.bg-secondary { background-color: #9ca3af !important; }
+    .badge.bg-danger    { background-color: var(--danger) !important; }
+
 </style>
-{% endblock extra_head %}
 
 {% block content %}
 <div class="container my-5 pt-5 profile-page">
@@ -129,17 +112,17 @@
                     <ul class="nav nav-tabs nav-fill rounded-top-4" id="profileTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active fw-bold" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings-tab-pane" type="button" role="tab">
-                                <i class="fas fa-history me-1 text-muted"> My Bookings </i>
+                                <i class="fas fa-history me-1 text-primary"> My Bookings</i> 
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-bold" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button" role="tab">
-                                <i class="fas fa-user-edit me-1 text-muted"> Edit Details</i>
+                                <i class="fas fa-user-edit me-1 text-primary"> Edit Details</i>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link fw-bold" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents-tab-pane" type="button" role="tab">
-                                <i class="fas fa-file-alt me-1 text-muted"> ID & License</i>
+                                <i class="fas fa-file-alt me-1 text-primary"> ID & License</i>
                             </button>
                         </li>
                     </ul>
@@ -149,7 +132,7 @@
                     <div class="tab-content" id="profileTabsContent">
                         
                         <div class="tab-pane fade show active" id="bookings-tab-pane" role="tabpanel">
-                            <h4 class="fw-bold text-muted mb-4">List of Recent Bookings</h4>
+                            <h4 class="fw-bold text-primary mb-4">List of Recent Bookings</h4>
 
                             {% if bookings %}
                                 {% for booking in bookings %}
@@ -175,7 +158,7 @@
                                                 </div>
 
                                                 <div class="col-md-6 text-md-start mt-3 mt-md-0">
-                                                    <h4 class="text-muted fw-bold mb-1">
+                                                    <h4 class="text-primary fw-bold mb-1">
                                                         {{ booking.total_price }} SAR
                                                     </h4>
 

@@ -10,7 +10,7 @@
 
             <h1 class="fw-bold mb-4 text-center">Create Your Account</h1>
 
-            <div class="publisher-info-card shadow-lg p-5 rounded-4">
+            <div class="publisher-info-card shadow-lg p-5 rounded-4 bg-white">
                 
                 {% if messages %}
                     {% for message in messages %}
@@ -26,22 +26,23 @@
                     
                     <div class="mb-4">
                         <label for="id_username" class="form-label fw-bold">Name</label>
-                        <input type="text" name="username" class="form-control" required placeholder="Enter your name">
+                        <!-- ✅ أضفنا id ليعمل الـ label -->
+                        <input type="text" name="username" id="id_username" class="form-control" required placeholder="Enter your name">
                     </div>
 
                     <div class="mb-4">
                         <label for="id_email" class="form-label fw-bold">Email Address</label>
-                        <input type="email" name="email" class="form-control" required placeholder="e.g., user@example.com">
+                        <input type="email" name="email" id="id_email" class="form-control" required placeholder="e.g., user@example.com">
                     </div>
 
                     <div class="mb-4">
                         <label for="id_password1" class="form-label fw-bold">Password</label>
-                        <input type="password" name="password" class="form-control" required placeholder="Minimum 8 characters">
+                        <input type="password" name="password" id="id_password1" class="form-control" required placeholder="Minimum 8 characters">
                     </div>
 
                     <div class="mb-5">
                         <label for="id_password2" class="form-label fw-bold">Confirm Password</label>
-                        <input type="password" name="password2" class="form-control" required placeholder="Re-enter your password">
+                        <input type="password" name="password2" id="id_password2" class="form-control" required placeholder="Re-enter your password">
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 p-3 fw-bold">

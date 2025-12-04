@@ -28,7 +28,7 @@
         /* إضافة تنسيق للناف بار المتغير (من كود الفريق) */
         .initial-nav { background-color: #212529; transition: background-color 0.3s ease; } 
         .navbar-home { background-color: transparent; }
-        .scrolled-nav { background-color: #212529 !important; shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .scrolled-nav { background-color: #212529 !important; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
     </style>
 
     {% block extra_head %}{% endblock %}
@@ -103,7 +103,7 @@
         </nav>
     </header>
 
-    <main style=""> 
+    <main > 
         {% comment %} <div class="container">
             {% if messages %}
                 {% for message in messages %}

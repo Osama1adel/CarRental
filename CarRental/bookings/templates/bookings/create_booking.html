@@ -10,6 +10,26 @@
                     <h4 class="mb-0">Complete Your Booking</h4>
                 </div>
                 <div class="card-body">
+                    
+                    <!-- 
+                        📝 توثيق التعديل الجديد: قسم عرض الأخطاء العامة (Non-field Errors)
+                        الهدف: عرض رسائل الخطأ القادمة من دالة clean() في forms.py
+                        مثل: "السيارة محجوزة بالفعل في هذه الفترة" أو "تاريخ النهاية قبل البداية"
+                    -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <!-- أيقونة تنبيه لجذب انتباه المستخدم -->
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <div>
+                            <!-- حلقة تكرارية لعرض جميع الأخطاء العامة إن وجدت -->
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- نهاية قسم الأخطاء العامة -->
+
                     <div class="row mb-4">
                         <div class="col-md-4">
                             {% if car.image %}
@@ -31,19 +51,21 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Pick-up Date</label>
                                 {{ form.start_date }}
+                                <!-- عرض أخطاء الحقل الخاص بتاريخ البدء -->
+                                {% if form.start_date.errors %}
+                                    <div class="text-danger small">{{ form.start_date.errors.0 }}</div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Return Date</label>
                                 {{ form.end_date }}
+                                <!-- عرض أخطاء الحقل الخاص بتاريخ الانتهاء -->
+                                {% if form.end_date.errors %}
+                                    <div class="text-danger small">{{ form.end_date.errors.0 }}</div>
+                                {% endif %}
                             </div>
                         </div>
                         
-                        {% if form.errors %}
-                        <div class="alert alert-danger">
-                            {{ form.errors }}
-                        </div>
-                        {% endif %}
-
                         <button type="submit" class="btn btn-primary w-100 btn-lg mt-3">Confirm Booking</button>
                     </form>
                 </div>

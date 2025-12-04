@@ -16,8 +16,8 @@ def is_admin_or_staff(user):
 def home(request):
 
     try:
-        cars = Car.objects.all().order_by('-created_at')[:6]
-        expensive_cars = Car.objects.all().order_by('-daily_price')[:6]
+        cars = Car.objects.all().order_by('-created_at')[:4]
+        expensive_cars = Car.objects.all().order_by('-daily_price')[:8]
     except Exception:
         cars = []
 

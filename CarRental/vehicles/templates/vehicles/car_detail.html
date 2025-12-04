@@ -69,7 +69,7 @@
 
             {% if car.is_available %}
                 <!-- تأكد أن هذا الرابط صحيح، إذا لم تنشئ تطبيق bookings بعد، ضعه # مؤقتاً -->
-                <a href="#" class="btn btn-primary btn-lg w-100 py-3 fw-bold shadow">
+                <a href="{% url 'bookings:create_booking' car.id %}" class="btn btn-primary btn-lg w-100 py-3">
                     احجز هذه السيارة الآن
                 </a>
             {% else %}

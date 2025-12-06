@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FAQ - Frequently Asked Questions{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <h1 class="display-4 fw-bold text-center mb-4">❓ FAQs - Find Your Answers</h1>
+            <p class="lead text-center text-secondary mb-5">
+                Here are answers to common questions about your rental, payment, and account management.
+            </p>
+
+            <div class="accordion" id="faqAccordion">
+                
+                <h3 class="fw-bold mt-5 mb-3 text-primary">Booking & Eligibility</h3>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            1. What documents do I need to rent a car?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            You will need a valid driver's license (local or international), a government-issued ID (such as an Iqama or National ID), and a credit card in the renter's name for the security deposit.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            2. What is the minimum age requirement?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            The minimum age to rent a vehicle is typically 21 years old. Renters under 25 may be subject to an additional young driver fee, depending on the car group.
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="fw-bold mt-5 mb-3 text-primary">Payment & Fees</h3>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            3. Is insurance included in the rental price?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Basic third-party liability insurance is usually included. You have the option to purchase additional comprehensive coverage (CDW/Super CDW) during the online booking process for extra peace of mind.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            4. What payment methods are accepted?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            We accept all major credit cards (Visa, Mastercard, Amex). For the mandatory security deposit, a credit card is required. Debit cards may be accepted for the rental amount but not for the deposit.
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="fw-bold mt-5 mb-3 text-primary">Pick-up & Return</h3>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            5. What happens if I return the car late?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Late returns may incur an hourly late fee or an additional full-day rental charge, depending on the delay. Please inform us immediately if you anticipate returning the vehicle later than the agreed time.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

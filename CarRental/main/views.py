@@ -59,6 +59,15 @@ def contact(request):
     context = {'form': form}
     return render(request, "main/contact.html", context)
 
+def privacy_policy(request):
+    return render(request, 'main/privacy_policy.html')
+
+def terms_conditions(request):
+    return render(request, 'main/terms_conditions.html')
+
+def faq_page(request):
+    return render(request, 'main/faq.html')
+
 
 
 @login_required(login_url='accounts:login')

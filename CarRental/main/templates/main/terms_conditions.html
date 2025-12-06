@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Terms & Conditions - Carent{% endblock %}
+
+{% block content %}
+<div class="container py-5 my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <h1 class="display-4 fw-bold text-center mb-4">📜 Terms & Conditions</h1>
+            <p class="lead text-center text-secondary mb-5">
+                By using the Carent platform, you agree to abide by these terms.
+            </p>
+
+            <h3 class="fw-bold mb-3 mt-5">1. Eligibility</h3>
+            <p class="text-secondary">
+                The user must be at least 18 years old, hold a valid driver's license, and possess a credit card in their name.
+            </p>
+
+            <h3 class="fw-bold mb-3 mt-4">2. Booking and Payment</h3>
+            <p class="text-secondary">
+                Booking is confirmed after payment of the full rental amount or the specified advance payment. The daily rate does not include fuel charges or any potential late fees.
+            </p>
+
+            <h3 class="fw-bold mb-3 mt-4">3. Cancellation</h3>
+            <p class="text-secondary">
+                Cancellation fees apply according to the specific cancellation policy for each booking. Typically, cancellation more than 24 hours before the pickup time allows for a full refund.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

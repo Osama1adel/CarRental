@@ -1,5 +1,3 @@
-# bookings/views.py (النسخة النهائية)
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -8,7 +6,7 @@ from django.urls import reverse # 💡 هذا الاستيراد مهم لاست
 from .models import Booking
 from .forms import BookingForm
 from vehicles.models import Car 
-# 💡 لا تحتاج لاستيراد logging هنا، فهو في payments/views.py
+
 
 
 @login_required(login_url='accounts:login')
@@ -16,22 +14,21 @@ def create_booking(request, car_id):
     car = get_object_or_404(Car, pk=car_id)
 
     if request.method == 'POST':
-        # ✅ نرسل car.id للفورم لكي يتمكن من فحص التواريخ والتحقق من التوفر
+
         form = BookingForm(request.POST, car_id=car.id)
         if form.is_valid():
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
 
-            booking.save() # السعر يحسب تلقائياً في الموديل
+            booking.save() 
             messages.success(request, "تم حجز السيارة بنجاح! بانتظار الموافقة.")
             return redirect('bookings:booking_success')
 
-            # 3. التوجيه إلى صفحة الدفع ببيانات حجز كاملة ومحفوظة
             return redirect(reverse('payments:initiate_payment', args=[booking.id]))
 
     else:
-        # ✅ نرسل car.id عند فتح الصفحة لأول مرة أيضاً
+
         form = BookingForm(car_id=car.id)
 
     return render(request, 'bookings/create_booking.html', {

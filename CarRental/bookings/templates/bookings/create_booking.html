@@ -2,53 +2,50 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">Complete Your Booking</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-4">
-                            {% if car.image %}
-                            <img src="{{ car.image.url }}" class="img-fluid rounded" alt="{{ car.model_name }}">
-                            {% endif %}
-                        </div>
-                        <div class="col-md-8">
-                            <h3>{{ car.brand }} {{ car.model_name }}</h3>
-                            <h5 class="text-primary">${{ car.daily_price }} / Day</h5>
-                            <p class="text-muted">{{ car.description|truncatewords:20 }}</p>
-                        </div>
-                    </div>
-                    
-                    <hr>
-
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Pick-up Date</label>
-                                {{ form.start_date }}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Return Date</label>
-                                {{ form.end_date }}
-                            </div>
-                        </div>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">تأكيد حجز سيارة: {{ car.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'bookings:create_booking' car.id %}">
+                        
+                        {% csrf_token %} 
                         
-                        {% if form.errors %}
-                        <div class="alert alert-danger">
-                            {{ form.errors }}
-                        </div>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <h4 class="alert-heading">خطأ في التحقق من النموذج:</h4>
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
                         {% endif %}
+                        
+                        <p class="lead">السعر اليومي: <strong>{{ car.daily_price }} ر.س</strong></p>
+                        <hr>
+                        
+                        <h5 class="mb-3">تحديد المدة</h5>
+                        
+                        {% for field in form %}
+                        <div class="form-group mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
 
-                        <button type="submit" class="btn btn-primary w-100 btn-lg mt-3">Confirm Booking</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-success btn-lg">تأكيد الحجز والانتقال للدفع التجريبي</button>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
+{% endblock content %}

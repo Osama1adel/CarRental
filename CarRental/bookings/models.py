@@ -1,9 +1,10 @@
+# bookings/models.py
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-# تأكد أن اسم التطبيق عندك هو vehicles واسم المودل Car
 from vehicles.models import Car 
+from datetime import timedelta # 💡 تأكد من استيراد timedelta إذا لم يكن موجوداً
 
 class Booking(models.Model):
     STATUS_CHOICES = [
@@ -36,11 +37,14 @@ class Booking(models.Model):
         default='PENDING',
         verbose_name="حالة الحجز"
     )
+    
+    # 💡 حقل جديد صريح لحساب الأيام
+    duration_days = models.IntegerField(default=0, verbose_name="مدة الحجز بالأيام")
+    
     total_price = models.DecimalField(
         max_digits=10, 
         decimal_places=2, 
-        blank=True, 
-        null=True,
+        default=0.00, # 💡 نستخدم default بدلاً من blank/null=True
         verbose_name="السعر الإجمالي"
     )
     
@@ -54,6 +58,22 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking #{self.id} - {self.user} - {self.car}"
+    
+    # 💡 دالة جديدة لحساب السعر والمدة (للتنفيذ الصريح في الـ View)
+    def calculate_prices(self):
+        if self.start_date and self.end_date:
+            delta = self.end_date - self.start_date
+            # يجب استخدام .days + 1 لتضمين يومي الاستلام والتسليم
+            self.duration_days = max(1, delta.days + 1)
+        else:
+            self.duration_days = 0
+
+        if self.car and self.duration_days > 0:
+            # يجب أن يكون self.car.daily_price موجوداً في مودل Car
+            self.total_price = self.car.daily_price * self.duration_days
+        else:
+            self.total_price = 0.00
+
 
     def clean(self):
         if self.start_date and self.end_date:
@@ -63,16 +83,7 @@ class Booking(models.Model):
             if not self.pk and self.start_date < timezone.now():
                 raise ValidationError("لا يمكن الحجز في تاريخ قديم.")
 
-    @property
-    def duration_days(self):
-        if self.start_date and self.end_date:
-            delta = self.end_date - self.start_date
-            return max(delta.days, 1)
-        return 0
-
     def save(self, *args, **kwargs):
-        if not self.total_price and self.car and self.start_date and self.end_date:
-            # تأكد أن مودل Car يحتوي على daily_price
-            self.total_price = self.car.daily_price * self.duration_days
-        
+        # 🛑 استدعاء الدالة قبل الحفظ لضمان أن total_price و duration_days مُحدّثان
+        self.calculate_prices()
         super().save(*args, **kwargs)

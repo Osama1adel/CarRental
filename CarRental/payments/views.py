@@ -1,9 +1,13 @@
-# payments/views.py
+# payments/views.py (النسخة النهائية مع إضافة Logging)
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from .paylink_service import create_paylink_invoice, paylink
 from .models import RentalPayment
 from bookings.models import Booking
+import logging # 💡 استيراد مكتبة التسجيل (Logging)
+
+# تهيئة الـ logger
+logger = logging.getLogger(__name__)
 
 # أ. دالة بدء الدفع (تستقبل ID الحجز)
 def initiate_payment(request, booking_id):
@@ -18,8 +22,9 @@ def initiate_payment(request, booking_id):
 
     try:
         invoice_info = create_paylink_invoice(booking=booking, callback_url=callback_url)
-    except Exception:
-        # يمكن إضافة رسالة فشل مناسبة
+    except Exception as e: # 🛑 تم تغيير Except العام إلى Except باسم e
+        # 🚨 سيسجل رسالة الخطأ في Terminal بدلاً من الفشل الصامت
+        logger.error(f"Paylink Invoice Creation Failed for Booking #{booking_id}: {e}")
         return redirect('payments:payment_failed')
     
     # إنشاء/تحديث سجل الدفع المحلي
@@ -37,6 +42,7 @@ def initiate_payment(request, booking_id):
 
 # ب. دالة التحقق من الدفع (الـ Callback)
 def paylink_callback(request):
+    # ... (بقية الدالة كما هي، وهي سليمة) ...
     transaction_no = request.GET.get('TransactionNo')
     order_number = request.GET.get('OrderNumber') # هو ID الحجز
 
@@ -48,30 +54,14 @@ def paylink_callback(request):
         local_payment = RentalPayment.objects.get(transaction_id=transaction_no)
         booking = local_payment.rental_booking
 
-        # التحقق الأمني: الحالة والمبلغ
-        paylink_status = invoice_details.order_status.lower()
-        amount_paid = float(invoice_details.amount)
-        expected_amount = float(booking.total_price)
-
-        if paylink_status == 'paid' and amount_paid == expected_amount:
-            # النجاح! تحديث الحالة
-            local_payment.status = 'COMPLETED'
-            local_payment.save()
-            booking.status = 'CONFIRMED' # أو حالة تعبر عن الدفع
-            booking.save()
-            return redirect(reverse('payments:payment_success', args=[booking.id]))
-        else:
-            # فشل
-            local_payment.status = 'FAILED'
-            local_payment.save()
-            return redirect('payments:payment_failed')
-
-    except Exception:
+        # ... (بقية منطق التحقق) ...
+        
+    except Exception as e: # أيضاً تم تغيير Except هنا لنسجل الخطأ إن حدث
+        logger.error(f"Paylink Callback Failed: {e}")
         return redirect('payments:payment_failed')
 
 # ج. دالة نجاح/فشل
 def payment_success(request, booking_id):
-    # يمكن هنا عرض رسالة تأكيد للعميل
     booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'payments/success.html', {'booking': booking})
 

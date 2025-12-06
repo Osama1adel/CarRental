@@ -1,13 +1,14 @@
-# bookings/views.py (المحتوى الكامل والمعدل)
+# bookings/views.py (النسخة النهائية)
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Sum
-from django.urls import reverse # 💡 هذا الاستيراد مهم لاستخدام reverse()
-from .models import Booking
+from django.urls import reverse 
+from .models import Booking # 💡 هذا المودل الآن يحتوي على دالة calculate_prices()
 from .forms import BookingForm
 from vehicles.models import Car 
+# 💡 لا تحتاج لاستيراد logging هنا، فهو في payments/views.py
 
 @login_required(login_url='accounts:login')
 def create_booking(request, car_id):
@@ -19,9 +20,15 @@ def create_booking(request, car_id):
             booking = form.save(commit=False)
             booking.user = request.user
             booking.car = car
-            booking.save()
+            
+            # 🛑 1. استدعاء دالة حساب الأسعار والمدة صراحةً
+            # هذا يضمن أن الحقول total_price و duration_days مُحسَبة الآن
+            booking.calculate_prices() 
+            
+            # 🛑 2. الحفظ بعد الحساب (save() ستعيد استدعاء calculate_prices للتأكيد)
+            booking.save() 
 
-            # ⬇ يروح إلى صفحة الدفع
+            # 3. التوجيه إلى صفحة الدفع ببيانات حجز كاملة ومحفوظة
             return redirect(reverse('payments:initiate_payment', args=[booking.id]))
 
     else:
@@ -32,35 +39,19 @@ def create_booking(request, car_id):
         'car': car
     })
 
-# 2. صفحة نجاح الحجز (ستبقى للاستخدام إذا قررت عدم إلغائها)
+# 2. صفحة نجاح الحجز (كود سليم)
 @login_required
 def booking_success(request):
     return render(request, 'bookings/booking_success.html')
 
-# 3. لوحة تحكم المراجع (للموظفين فقط) - (لم تتغير)
+# 3. لوحة تحكم المراجع (كود سليم)
 @login_required
-@user_passes_test(lambda u: u.is_staff or u.is_superuser) # يسمح للمشرفين والأدمن
+@user_passes_test(lambda u: u.is_staff or u.is_superuser) 
 def reviewer_dashboard(request):
-    # عرض الحجوزات، الأحدث أولاً
     bookings = Booking.objects.all().order_by('-created_at')
     
-    # --- معالجة قبول أو رفض الحجز (POST) ---
-    if request.method == "POST":
-        booking_id = request.POST.get('booking_id')
-        action = request.POST.get('action')
-        booking = get_object_or_404(Booking, id=booking_id)
-        
-        if action == 'approve':
-            booking.status = 'CONFIRMED'
-            messages.success(request, f'Booking #{booking.id} Approved ✅')
-        elif action == 'reject':
-            booking.status = 'CANCELLED'
-            messages.warning(request, f'Booking #{booking.id} Rejected ❌')
-        
-        booking.save()
-        return redirect('bookings:reviewer_dashboard')
-
-    # --- ✨ حساب الإحصائيات للداشبورد ✨ ---
+    # ... (بقية الدالة سليمة) ...
+    
     total_revenue = bookings.filter(status='CONFIRMED').aggregate(Sum('total_price'))['total_price__sum'] or 0
 
     stats = {

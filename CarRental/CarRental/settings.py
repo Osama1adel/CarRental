@@ -26,7 +26,19 @@ SECRET_KEY = 'django-insecure-)r903)9j(ar(37**m8@ig^q%d!w@ymsig^!g!769m@)*^i8*3i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.dev',
+    'http://*.ngrok-free.dev',
+    'https://*.ngrok-free.app', # إذا كنت تستخدم الرابط القديم
+]
+ALLOWED_HOSTS = [
+    'impressionally-geostrophic-garth.ngrok-free.dev',
+    '127.0.0.1', 
+    'localhost', 
+    # أضف رابط ngrok الحالي (يجب أن يعمل هذا لجميع الروابط الجديدة)
+    '*.ngrok-free.dev', 
+    '*.ngrok-free.app',
+]
 
 
 # Application definition

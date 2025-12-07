@@ -16,7 +16,7 @@ class CarForm(forms.ModelForm):
                   'transmission', 'fuel_type', 'color', 'plate_number', 
                   'image', 'is_available']
         
-        # تنسيق الحقول بـ Bootstrap
+        # تنسيق الحقول ب Bootstrap
         widgets = {
             'rental_company': forms.Select(attrs={'class': 'form-select'}),
             'brand': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثال: تويوتا'}),

@@ -4,13 +4,6 @@
 
 {% block extra_head %}
 <style>
-/* ------------------------------------------- */
-/* CSS Fix: Ensure messages are clickable */
-/* ------------------------------------------- */
-/* نضيف style للـ message container لجعله ثابتاً (fixed)
-   ولضمان أن يكون فوق شريط التنقل (z-index: 1050)
-   ولجعله يظهر في الزاوية العلوية اليمنى (top: 80px)
-*/
 .messages-container {
     position: fixed;
     top: 80px; /* Adjust this value if your navbar height is different */
@@ -21,10 +14,9 @@
 }
 .alert-success {
     color: #0f5132;
-    background-color: #d1e7dd; /* اللون الافتراضي (فاتح) */
+    background-color: #d1e7dd; 
     border-color: #badbcc;
 }
-/* This style block remains from your original code: */
 main .container.pt-5 {
     padding-top: 0 !important;
 }
@@ -52,7 +44,6 @@ main .container.pt-5 {
 {% endblock %}
 
 {% block content %}
-    {# NEW MESSAGES CONTAINER: Fixed position to avoid navbar overlap #}
     <div class="messages-container">
         {% if messages %}
             {% for message in messages %}

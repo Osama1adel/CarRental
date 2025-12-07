@@ -1,6 +1,5 @@
-# payments/models.py
 from django.db import models
-from bookings.models import Booking # استيراد نموذج الحجز
+from bookings.models import Booking 
 
 class RentalPayment(models.Model):
     STATUS_CHOICES = [
@@ -10,14 +9,13 @@ class RentalPayment(models.Model):
         ('FAILED', 'فشل'),
     ]
 
-    # ربط عملية الدفع بسجل الحجز
     rental_booking = models.OneToOneField(
         Booking, 
         on_delete=models.CASCADE, 
         related_name='payment',
         verbose_name="الحجز المرتبط"
     )
-    # لحفظ رقم العملية الذي يُصدره Paylink
+
     transaction_id = models.CharField(
         max_length=100, 
         unique=True, 

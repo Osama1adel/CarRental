@@ -5,11 +5,6 @@
 
 {% block extra_head %}
 <style>
-    /* -------------------------------------------------------------------------- */
-    /* NEW DESIGN: LIGHT BLUE ACCENT & PROFESSIONAL GREY LOOK                   */
-    /* -------------------------------------------------------------------------- */
-    
-    /* 1. Global Color Override (Light Blue / Sky Blue) */
     :root {
         --bs-primary: #00BFFF; /* Light Blue / Deep Sky Blue */
         --bs-primary-rgb: 0, 191, 255;
@@ -29,7 +24,6 @@
         --bs-btn-hover-bg: #0099cc; /* Slightly darker hover */
         --bs-btn-hover-border-color: #0099cc;
     }
-    /* The 'Save Changes' button in settings should now use the new primary blue */
     .btn-success {
         --bs-btn-bg: var(--bs-primary);
         --bs-btn-border-color: var(--bs-primary);
@@ -41,7 +35,6 @@
         background-color: var(--bs-primary) !important; 
         color: #fff !important; /* Ensure white text */
     }
-    
     /* 2. General Page & Card Styling */
     body {
         background-color: var(--bs-light);

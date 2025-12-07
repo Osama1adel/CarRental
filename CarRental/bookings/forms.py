@@ -11,7 +11,6 @@ class BookingForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
 
-    # نستقبل رقم السيارة (car_id) عند إنشاء الفورم لنعرف أي سيارة نفحص
     def __init__(self, *args, **kwargs):
         self.car_id = kwargs.pop('car_id', None) 
         super().__init__(*args, **kwargs)
@@ -21,13 +20,13 @@ class BookingForm(forms.ModelForm):
         start = cleaned_data.get("start_date")
         end = cleaned_data.get("end_date")
 
-        # 1. التحقق من منطقية التواريخ (النهاية بعد البداية)
+        # 1. التحقق من منطقية التواريخ
         if start and end and end <= start:
             raise forms.ValidationError("تاريخ النهاية يجب أن يكون بعد تاريخ البداية.")
 
         # 2. التحقق من توفر السيارة (منع التداخل مع حجوزات مؤكدة)
         if self.car_id and start and end:
-            # نبحث عن أي حجز 'CONFIRMED' لنفس السيارة يتقاطع مع الفترة المختارة
+            
             overlap = Booking.objects.filter(
                 car_id=self.car_id,
                 status='CONFIRMED'

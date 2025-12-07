@@ -1,11 +1,10 @@
-# accounts/forms.py
 from django import forms
 from .models import UserProfile
 from django.contrib.auth.models import User
 
 # 1. Form for updating basic User data (Name, Email)
 class UserUpdateForm(forms.ModelForm):
-    # Keep email read-only since it's used as the username for login
+
     email = forms.EmailField(disabled=True) 
     
     class Meta:

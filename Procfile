@@ -1,1 +1,0 @@
-web: cd CarRental && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn CarRental.wsgi

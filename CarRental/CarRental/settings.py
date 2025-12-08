@@ -31,13 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://*.ngrok-free.dev',
     'https://*.ngrok-free.app', # إذا كنت تستخدم الرابط القديم
 ]
-ALLOWED_HOSTS = [
-    'impressionally-geostrophic-garth.ngrok-free.dev',
-    '127.0.0.1', 
-    'localhost', 
-    # أضف رابط ngrok الحالي (يجب أن يعمل هذا لجميع الروابط الجديدة)
-    '*.ngrok-free.dev', 
-    '*.ngrok-free.app',
+ALLOWED_HOSTS = ['*'
 ]
 
 
@@ -59,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,6 +86,15 @@ WSGI_APPLICATION = 'CarRental.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
+    }
+} if not DEBUG else {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',

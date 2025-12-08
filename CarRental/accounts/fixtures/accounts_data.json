@@ -1,0 +1,28 @@
+[
+{
+    "model": "accounts.userprofile",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "phone_number": null,
+        "date_of_birth": null,
+        "national_id_image": "",
+        "driving_license_image": "",
+        "created_at": "2025-12-07T07:53:24.537Z",
+        "updated_at": "2025-12-07T07:53:24.537Z"
+    }
+},
+{
+    "model": "accounts.userprofile",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "phone_number": null,
+        "date_of_birth": null,
+        "national_id_image": "",
+        "driving_license_image": "",
+        "created_at": "2025-12-07T07:59:12.128Z",
+        "updated_at": "2025-12-07T07:59:12.128Z"
+    }
+}
+]

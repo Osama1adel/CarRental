@@ -1,0 +1,45 @@
+[
+{
+    "model": "vehicles.rentalcompany",
+    "pk": 1,
+    "fields": {
+        "name": "Theep"
+    }
+},
+{
+    "model": "vehicles.rentalcompany",
+    "pk": 2,
+    "fields": {
+        "name": "The key"
+    }
+},
+{
+    "model": "vehicles.car",
+    "pk": 1,
+    "fields": {
+        "rental_company": 1,
+        "brand": "Hyundai Elantra",
+        "model_name": "2025",
+        "description": "Hyundai Elantra 2025 gray",
+        "transmission": "auto",
+        "fuel_type": "petrol",
+        "color": "Gray",
+        "plate_number": "ASD 1234",
+        "daily_price": "220.00",
+        "image": "cars/2025_Hyundai_Elantra_SEL_gray_0HA9Jug.jpg",
+        "is_available": true,
+        "created_at": "2025-12-07T07:57:12.878Z"
+    }
+},
+{
+    "model": "vehicles.carreview",
+    "pk": 1,
+    "fields": {
+        "car": 1,
+        "user": 2,
+        "rating": 1,
+        "comment": "Very good car",
+        "created_at": "2025-12-07T07:58:43.207Z"
+    }
+}
+]

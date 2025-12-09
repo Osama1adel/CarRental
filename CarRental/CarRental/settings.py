@@ -161,3 +161,8 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
 PAYLINK_MODE = 'TEST'
+
+# أضف هذا السطر ليعمل موقعك على Railway
+CSRF_TRUSTED_ORIGINS = [
+    'https://carrental-production-de4e.up.railway.app',
+]
